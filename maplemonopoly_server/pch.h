@@ -1,0 +1,11 @@
+#pragma once
+#include <iostream>
+#include <process.h>
+#include <winsock2.h>
+#include <WS2tcpip.h>
+#include <vector>
+#include <list>
+#include <algorithm>
+#include <map>
+#include "Types.h"
+#include "Macro.h"

@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="pch.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="App.cpp">
+      <Filter>app</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Session.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingController.cpp">
+      <Filter>controller</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginController.cpp">
+      <Filter>controller</Filter>
+    </ClCompile>
+    <ClCompile Include="UserDTO.cpp">
+      <Filter>dto</Filter>
+    </ClCompile>
+    <ClCompile Include="LobbyController.cpp">
+      <Filter>controller</Filter>
+    </ClCompile>
+    <ClCompile Include="RoomDTO.cpp">
+      <Filter>dto</Filter>
+    </ClCompile>
+    <ClCompile Include="WatingRoomDTO.cpp">
+      <Filter>dto</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="core">
+      <UniqueIdentifier>{0791d1a0-c72a-43f0-90a6-f2efab324606}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="app">
+      <UniqueIdentifier>{e6445324-c701-4875-a62b-a6f7a4329679}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="controller">
+      <UniqueIdentifier>{a4508883-d259-43f3-a214-0b5ce6d6c325}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="base">
+      <UniqueIdentifier>{0629c5d1-ee6b-4e15-bc06-343f8eefa662}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dto">
+      <UniqueIdentifier>{3b20d402-5547-4a3f-b345-f56f8f2c8ffc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="Macro.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="Session.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingController.h">
+      <Filter>controller</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginController.h">
+      <Filter>controller</Filter>
+    </ClInclude>
+    <ClInclude Include="UserDTO.h">
+      <Filter>dto</Filter>
+    </ClInclude>
+    <ClInclude Include="LobbyController.h">
+      <Filter>controller</Filter>
+    </ClInclude>
+    <ClInclude Include="RoomDTO.h">
+      <Filter>dto</Filter>
+    </ClInclude>
+    <ClInclude Include="WatingRoomDTO.h">
+      <Filter>dto</Filter>
+    </ClInclude>
+    <ClInclude Include="App.h">
+      <Filter>app</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
