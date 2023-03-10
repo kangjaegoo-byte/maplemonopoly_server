@@ -17,6 +17,8 @@ UserDTO::UserDTO(const UserDTO& _copy)
 	m_sung = _copy.m_sung;
 	m_location = _copy.m_location;
 	m_userId = _copy.m_userId;
+	m_roomSq = _copy.m_roomSq;
+	m_pick = _copy.m_pick;
 }
 
 UserDTO::~UserDTO()

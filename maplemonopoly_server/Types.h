@@ -64,3 +64,11 @@ enum Roomstatus : int
 {
 	HOLD = 0
 };
+
+enum CPick : int
+{
+	HONY_MURSHROOM = 0,
+	ORANGE_MURSHROOM = 1,
+	PIG = 2,
+	NOUSER = 3
+};

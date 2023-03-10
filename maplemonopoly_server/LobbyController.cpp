@@ -84,7 +84,8 @@ void LobbyController::WatingRoomDataAsync(Session* _session, int _roomSq)
 			for (int i = 0; i < index; i++)
 			{
 				UserDTO* user = watingRoomData->GetUser(i);
-				temp.push_back(*user);
+				UserDTO  t = *user;
+				temp.push_back(t);
 			}
 
 			App::GetInstance()->SendPacket(_session, (char*)&temp[0], CLIENT_WATING_ROOM_USERLIST_RESPONSE, PACKET_HEADER_SIZE + (temp.size() * sizeof(UserDTO)), temp.size());
