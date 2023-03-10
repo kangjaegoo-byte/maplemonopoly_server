@@ -214,4 +214,9 @@ void LobbyController::ChatMsgWroomSend(Session* _session, WCHAR* _msg, int strSi
 	for (auto& to : temp)
 		App::GetInstance()->SendPacket(to, (char*)str, CLIENT_WROOM_CHAT_MSG_SEND_RESPONSE, str_size + PACKET_HEADER_SIZE, 1);
 }
+
+void LobbyController::CPick(Session* _session, int _pick)
+{
+	_session->GetUser()->SetUserPick(_pick);
+}
 	

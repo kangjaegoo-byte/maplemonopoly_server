@@ -18,5 +18,6 @@ public:
 	void WatingRoomEnterUser(Session* _session, RoomDTO* _room);	/* 대기실 입장하기 */
 	void WatingRoomExitUser(Session* _session, int _roomSq);	/* 대기실 나가기 */
 	void ChatMsgWroomSend(Session* _session, WCHAR* _str, int _dataSize); /* 대기실 채팅 */
+	void CPick(Session* _session, int _pick); /* 유저픽 채팅 */
 };
 

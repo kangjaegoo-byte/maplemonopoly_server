@@ -160,7 +160,6 @@ void App::RecvPacket(Session* _session, char* _buffer)
         printf("Recv: packet size: %d, type: CLIENT_WATING_ROOM_ASYNCDATA\n", dataSize);
         LobbyController::GetInstance()->WatingRoomDataAsync(_session, static_cast<int>(*dataPtr));
         break;
-
     case CLIENT_ETNER_WATING_ROOM_REQUEST:
         printf("Recv: packet size: %d, type: CLIENT_ETNER_WATING_ROOM_REQUEST\n", dataSize);
         LobbyController::GetInstance()->WatingRoomEnterUser(_session, reinterpret_cast<RoomDTO*>(dataPtr));
@@ -174,6 +173,11 @@ void App::RecvPacket(Session* _session, char* _buffer)
     case CLIENT_WROOM_CHAT_MSG_SEND_REQUEST:
         printf("Recv: packet size: %d, type: CLIENT_WROOM_CHAT_MSG_SEND_REQUEST\n", dataSize);
         LobbyController::GetInstance()->ChatMsgWroomSend(_session, reinterpret_cast<WCHAR*>(dataPtr), dataSize);
+        break;
+
+    case CLIENT_CPICK_REQUEST:
+        printf("Recv: packet size: %d, type: CLIENT_CPICK_REQUEST\n", dataSize);
+        LobbyController::GetInstance()->CPick(_session, static_cast<int>(*dataPtr));
         break;
     }
 }
