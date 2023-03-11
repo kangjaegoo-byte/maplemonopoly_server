@@ -136,6 +136,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="GameController.cpp" />
+    <ClCompile Include="GameRoomDTO.cpp" />
     <ClCompile Include="LoadingController.cpp" />
     <ClCompile Include="LobbyController.cpp" />
     <ClCompile Include="LoginController.cpp" />
@@ -153,6 +155,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="GameController.h" />
+    <ClInclude Include="GameRoomDTO.h" />
     <ClInclude Include="LoadingController.h" />
     <ClInclude Include="LobbyController.h" />
     <ClInclude Include="LoginController.h" />

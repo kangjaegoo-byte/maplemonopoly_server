@@ -23,6 +23,7 @@ public:
 	int			 GetjoinCount() { return m_joinCount; }
 	int			 GetSq() { return m_sq; }
 	Roomstatus   GetStatus() { return m_status; }
+	void		 SetStatus(Roomstatus _status) { m_status = _status; }
 
 	void		 SetTitle(WCHAR* _title) { wcscpy_s(m_title, _title); }
 	void		 SetTitle(WCHAR* _title, int _dataSize) { memcpy(m_title, _title, _dataSize); }

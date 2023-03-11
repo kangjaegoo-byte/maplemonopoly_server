@@ -7,6 +7,7 @@
 #include "UserDTO.h"
 #include "RoomDTO.h"
 #include "WatingRoomDTO.h"
+#include "GameController.h"
 App* App::m_instance = nullptr;
 
 App::App()
@@ -179,6 +180,16 @@ void App::RecvPacket(Session* _session, char* _buffer)
         printf("Recv: packet size: %d, type: CLIENT_CPICK_REQUEST\n", dataSize);
         LobbyController::GetInstance()->CPick(_session, static_cast<int>(*dataPtr));
         break;
+
+    case CLIENT_GAME_START_REQUEST:
+        printf("Recv: packet size: %d, type: CLIENT_GAME_START_REQUEST\n", dataSize);
+        GameController::GetInstance()->MoveClientGame(_session);
+        break;
+
+    case CLIENT_GAME_ENTER_REQUEST:
+        printf("Recv: packet size: %d, type: CLIENT_GAME_ENTER_REQUEST\n", dataSize);
+        GameController::GetInstance()->EnterGameUser(_session);
+        break;
     }
 }
 
@@ -311,6 +322,10 @@ void App::ConsoleSendLog(UserDTO* _user, WORD _type, WORD _size)
 
     case CLIENT_WROOM_BOOM_RESPONSE:
         wprintf(L"Send: target:%s packet size: %d, type: CLIENT_WROOM_BOOM_RESPONSE\n", _user->GetUsername(), _size);
+        break;
+
+    case CLIENT_WROOM_CHAT_MSG_SEND_RESPONSE:
+        wprintf(L"Send: target:%s packet size: %d, type: CLIENT_WROOM_CHAT_MSG_SEND_RESPONSE\n", _user->GetUsername(), _size);
         break;
     }
 }

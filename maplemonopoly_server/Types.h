@@ -15,7 +15,8 @@ enum Scenetype : unsigned int
 	LOADING_SCENE = 0,
 	LOGIN_SCENE = 1,
 	LOBBY_SCENE = 2,
-	SCENE_COUNT = 3
+	GAME_SCENE = 3,
+	SCENE_COUNT = 4
 };
 
 /*********************************************************
@@ -34,6 +35,9 @@ enum ControllerType : int
 	CLIENT_WROOM_EXIT_REQUEST = 8,
 	CLIENT_WROOM_CHAT_MSG_SEND_REQUEST = 9,
 	CLIENT_CPICK_REQUEST = 10,
+	CLIENT_GAME_START_REQUEST = 11,
+	CLIENT_GAME_ENTER_REQUEST = 12,
+	CLIENT_GAME_EXIT_REQUEST = 13,
 };
 
 /*********************************************************
@@ -50,7 +54,8 @@ enum ServerResponse : int
 	CLIENT_WATING_ROOM_USERLIST_RESPONSE = 6,
 	CLIENT_WATING_ROOM_TITLE_RESPONSE = 7,
 	CLIENT_WROOM_BOOM_RESPONSE = 8,
-	CLIENT_WROOM_CHAT_MSG_SEND_RESPONSE = 9
+	CLIENT_WROOM_CHAT_MSG_SEND_RESPONSE = 9,
+	CLIENT_GAME_START_RESPONSE = 10,
 };
 
 enum Location : unsigned int
@@ -62,7 +67,8 @@ enum Location : unsigned int
 
 enum Roomstatus : int
 {
-	HOLD = 0
+	HOLD = 0,
+	GAME = 1
 };
 
 enum CPick : int
