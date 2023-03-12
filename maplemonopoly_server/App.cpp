@@ -233,57 +233,56 @@ void App::Disconnect(SOCKET _socekt, std::list<Session*>::iterator _it)
     bool owner = false;
     std::vector<Session*> roomMember;
 
-    if (user)
+    if (user && user->GetLocation() == Location::WATING_ROOM)   
     {
         int roomSq = user->GetRoomSq();
-        if (roomSq != 0)
+        // 접속을 종료한 유저가 방에 있을떄
+        for (auto it = App::GetInstance()->RoomsRef().begin(); it != App::GetInstance()->RoomsRef().end(); ++it)
         {
-     
-            // 접속을 종료한 유저가 방에 있을떄
-            for (auto it = App::GetInstance()->RoomsRef().begin(); it != App::GetInstance()->RoomsRef().end(); ++it)
+            // 접속을 종료한 유저가 방장일 경우
+            if (roomSq == (*it)->GetRoomSq() && user->GetUserId() == (*it)->GetRegID())
             {
-                // 접속을 종료한 유저가 방장일 경우
-                if (roomSq == (*it)->GetRoomSq() && user->GetUserId() == (* it)->GetRegID())
-                {
-                    
-                    delete (* it);
-                    App::GetInstance()->RoomsRef().erase(it);
 
-                    // TODO 방장이 방을 나갔으면 방에 인원 전부 로비로 강제 이동 
-                    owner = true;
+                delete (*it);
+                App::GetInstance()->RoomsRef().erase(it);
 
-                    delete App::GetInstance()->WatingRoomsRef().at(roomSq);
-                    App::GetInstance()->WatingRoomsRef().erase(roomSq);
-                    break;
-                }
+                // TODO 방장이 방을 나갔으면 방에 인원 전부 로비로 강제 이동 
+                owner = true;
 
-                // 접속을 종료한 유저가 방장이 아니고 일반 사용자일  경우
-                else if (roomSq == (*it)->GetRoomSq())
-                {
-                    // 유저 순서 조정 
-                    (*it)->SetJoinCount((*it)->GetjoinCount() - 1);
-                    App::GetInstance()->WatingRoomsRef().at(roomSq)->UserOrdering(user);
-                }
+                delete App::GetInstance()->WatingRoomsRef().at(roomSq);
+                App::GetInstance()->WatingRoomsRef().erase(roomSq);
+                break;
+            }
+
+            // 접속을 종료한 유저가 방장이 아니고 일반 사용자일  경우
+            else if (roomSq == (*it)->GetRoomSq())
+            {
+                // 유저 순서 조정 
+                (*it)->SetJoinCount((*it)->GetjoinCount() - 1);
+                App::GetInstance()->WatingRoomsRef().at(roomSq)->UserOrdering(user);
             }
         }
-    }
 
-    if (owner)
+        if (owner)
+        {
+            std::vector<Session*> roomMember;
+            for (auto& s : App::GetInstance()->SessionsRef())
+            {
+                if (user->GetRoomSq() == s->GetUser()->GetRoomSq())
+                {
+                    s->GetUser()->SetRoomSq(0);
+                    s->GetUser()->SetLocation(Location::LOBBY_ROOM);
+                    roomMember.push_back(s);
+                }
+            }
+            for (auto& session : roomMember)
+                App::GetInstance()->SendPacket(session, nullptr, CLIENT_WROOM_BOOM_RESPONSE, PACKET_HEADER_SIZE, 0);
+        }
+    }
+    else if (user && user->GetLocation() == Location::GAME_ROOM)
     {
-        std::vector<Session*> roomMember;
-        for (auto& s : App::GetInstance()->SessionsRef())
-        {
-            if (user->GetRoomSq() == s->GetUser()->GetRoomSq())
-            {
-                s->GetUser()->SetRoomSq(0);
-                s->GetUser()->SetLocation(Location::LOBBY_ROOM);
-                roomMember.push_back(s);
-            }
-        }
-        for (auto& session : roomMember)
-            App::GetInstance()->SendPacket(session, nullptr, CLIENT_WROOM_BOOM_RESPONSE, PACKET_HEADER_SIZE, 0);
+        GameController::GetInstance()->ExitGameUser(session);
     }
-
 
     delete session;
     FD_CLR(_socekt, &m_fdSocketInfors);

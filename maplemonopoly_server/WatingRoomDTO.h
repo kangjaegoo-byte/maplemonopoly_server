@@ -27,6 +27,7 @@ public:
 	void	 AddUser(UserDTO* _user) { m_players[m_index] = _user; m_index++; }
 	int		 GetIndex() { return m_index; }
 	UserDTO* GetUser(int _index) { return m_players[_index]; }
+	int		 FindUserById(int _userID);
 	UserDTO** GetUsers() { return m_players; }
 	WCHAR*	 GetTilte() { return m_title; }
 	

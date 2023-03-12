@@ -45,13 +45,16 @@ void GameController::MoveClientGame(Session* _session)
 		}
 	}
 
+	GameRoomDTO* gmDTO = new GameRoomDTO(roomSq, false, false);
 	for (auto& s : temp)
 	{
 		s->GetUser()->SetLocation(Location::GAME_ROOM);
 		LoadingController::GetInstance()->MoveClientLoading(s, Scenetype::GAME_SCENE);
-		GameRoomDTO* gmDTO = new GameRoomDTO(roomSq, false, false);
-		m_gameRooms.insert({ roomSq, gmDTO });
+		gmDTO->AddSession(s);
 	}
+	
+	gmDTO->SetWatingRoomData(App::GetInstance()->WatingRoomsRef().at(roomSq));
+	m_gameRooms.insert({ roomSq, gmDTO });
 }
 
 void GameController::EnterGameUser(Session* _session)
@@ -129,10 +132,8 @@ void GameController::ExitGameUser(Session* _session)
 			{
 				if (s->GetUser()->GetRoomSq() == roomSq)
 				{
-					std::vector<UserDTO> temp;
-					for (int i = 0; i < wroom->GetIndex(); i++)
-						temp.push_back(*wroom->GetUser(i));
-					App::GetInstance()->SendPacket(s, (char*)temp.data(), CLIENT_GAME_EXIT_RESPONSE, PACKET_HEADER_SIZE + (wroom->GetIndex() * sizeof(UserDTO)), wroom->GetIndex());
+					int userId = _session->GetUser()->GetUserId();
+					App::GetInstance()->SendPacket(s, (char*)&userId, CLIENT_GAME_EXIT_RESPONSE, PACKET_HEADER_SIZE + sizeof(int), 1);
 				}
 			}
 			break;

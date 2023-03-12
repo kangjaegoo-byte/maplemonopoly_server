@@ -24,3 +24,14 @@ void WatingRoomDTO::UserOrdering(UserDTO* _user)
 
 	m_index--;
 }
+
+int WatingRoomDTO::FindUserById(int _userID)
+{
+	for (int i = 0; i < m_index; i++) 
+	{
+		if (m_players[i]->GetUserId() == _userID) 
+		{
+			return i;
+		}
+	}
+}
