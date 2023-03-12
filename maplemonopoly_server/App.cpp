@@ -190,6 +190,11 @@ void App::RecvPacket(Session* _session, char* _buffer)
         printf("Recv: packet size: %d, type: CLIENT_GAME_ENTER_REQUEST\n", dataSize);
         GameController::GetInstance()->EnterGameUser(_session);
         break;
+    
+    case CLIENT_GAME_EXIT_REQUEST:
+        printf("Recv: packet size: %d, type: CLIENT_GAME_EXIT_REQUEST\n", dataSize);
+        GameController::GetInstance()->ExitGameUser(_session);
+        break;
     }
 }
 
@@ -326,6 +331,14 @@ void App::ConsoleSendLog(UserDTO* _user, WORD _type, WORD _size)
 
     case CLIENT_WROOM_CHAT_MSG_SEND_RESPONSE:
         wprintf(L"Send: target:%s packet size: %d, type: CLIENT_WROOM_CHAT_MSG_SEND_RESPONSE\n", _user->GetUsername(), _size);
+        break;
+
+    case CLIENT_GAME_START_RESPONSE:
+        wprintf(L"Send: target:%s packet size: %d, type: CLIENT_GAME_START_RESPONSE\n", _user->GetUsername(), _size);
+        break;
+
+    case CLIENT_GAME_EXIT_RESPONSE:
+        wprintf(L"Send: target:%s packet size: %d, type: CLIENT_GAME_EXIT_RESPONSE\n", _user->GetUsername(), _size);
         break;
     }
 }

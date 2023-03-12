@@ -3,7 +3,10 @@
 #include "UserDTO.h"
 void WatingRoomDTO::UserOrdering(UserDTO* _user)
 {
-	int i;
+
+	if (m_index == 0) return;
+
+	int i = 0;
 	for (i = 0; i < m_index; i++) 
 	{
 		if (m_players[i]->GetUserId() == _user->GetUserId())

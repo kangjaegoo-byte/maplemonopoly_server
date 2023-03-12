@@ -86,3 +86,57 @@ void GameController::EnterGameUser(Session* _session)
 	}
 	// 모든 인원이 접속 안했으면 아무것도 안함
 }
+
+void GameController::ExitGameUser(Session* _session)
+{
+	int roomSq = _session->GetUser()->GetRoomSq();
+	_session->GetUser()->SetRoomSq(0);
+	_session->GetUser()->SetLocation(Location::LOBBY_ROOM);
+	WatingRoomDTO* wroom = App::GetInstance()->WatingRoomsRef().at(roomSq);
+	wroom->UserOrdering(_session->GetUser());
+
+	for (auto it = App::GetInstance()->RoomsRef().begin();  it != App::GetInstance()->RoomsRef().end(); ++it)
+	{
+		RoomDTO* room = *it;
+		UserDTO* nextRegBy = nullptr;
+
+		// 방장일떄 
+		if (room->GetRoomSq() == roomSq)
+		{
+			if (room->GetRegID() == _session->GetUser()->GetUserId())
+			{
+				if (wroom->GetIndex() == 0) // 방에 아무도 없을때 방 데이터 전부 삭제
+				{
+					// 삭제 
+					delete wroom;
+					App::GetInstance()->WatingRoomsRef().erase(roomSq);
+					App::GetInstance()->RoomsRef().erase(it);
+					delete m_gameRooms.at(roomSq);
+					delete room;
+					LoadingController::GetInstance()->MoveClientLoading(_session, Scenetype::LOBBY_SCENE);
+					return;
+				}
+
+				nextRegBy = wroom->GetUser(0);
+				room->SetRegBy(nextRegBy->GetUsername());
+				room->SetRegID(nextRegBy->GetUserId());
+			}
+
+			nextRegBy = wroom->GetUser(0);
+			room->SetJoinCount(room->GetjoinCount() - 1);
+
+			for (auto& s : App::GetInstance()->SessionsRef())
+			{
+				if (s->GetUser()->GetRoomSq() == roomSq)
+				{
+					std::vector<UserDTO> temp;
+					for (int i = 0; i < wroom->GetIndex(); i++)
+						temp.push_back(*wroom->GetUser(i));
+					App::GetInstance()->SendPacket(s, (char*)temp.data(), CLIENT_GAME_EXIT_RESPONSE, PACKET_HEADER_SIZE + (wroom->GetIndex() * sizeof(UserDTO)), wroom->GetIndex());
+				}
+			}
+			break;
+		}
+	}
+	LoadingController::GetInstance()->MoveClientLoading(_session, Scenetype::LOBBY_SCENE);
+}
